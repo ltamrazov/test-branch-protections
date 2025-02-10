@@ -1,20 +1,24 @@
-name: Dismiss Stale Approvals
+name: Dismiss stale pull request approvals
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    types: [synchronize]
+    types: [
+        opened,
+        synchronize,
+        reopened,
+      ]
+
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
 
 jobs:
   dismiss_stale_approvals:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Dismiss stale approvals
-        uses: hmarr/dismiss-stale-approvals@v2
+        uses: withgraphite/dismiss-stale-approvals@main
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
